@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - College Grievance Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+        }
+
+        .nav-wrapper {
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .navbar-brand {
+            color: #1e4620;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #666;
+            text-decoration: none;
+            padding: 0.5rem;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #1e4620;
+        }
+
+        .nav-link.active {
+            color: #1e4620;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: #1e4620;
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .alert {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .alert-success {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #1e4620;
+        }
+
+        .role-options {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .role-options input[type="radio"] {
+            accent-color: #1e4620;
+        }
+
+        .btn {
+            background: #1e4620;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background: #2e7d32;
+        }
+
+        .register-link {
+            margin-left: 1rem;
+            color: #666;
+        }
+
+        .register-link a {
+            color: #1e4620;
+            text-decoration: none;
+            margin-left: 0.5rem;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .menu-button {
+            display: none;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .menu-button {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                z-index: 1000;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .container {
+                margin-top: 1rem;
+            }
+
+            .card-body {
+                padding: 1rem;
+            }
+
+            .register-link {
+                display: block;
+                margin: 1rem 0 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="nav-wrapper">
+    <nav class="navbar">
+        <a href="/index" class="navbar-brand">College Grievance Tracker</a>
+        <button class="menu-button" aria-label="Toggle navigation">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <div class="nav-links">
+            <a href="/register" class="nav-link">Register</a>
+            <a href="/login" class="nav-link active">Login</a>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>Login</h2>
+        </div>
+        <div class="card-body">
+            <div th:if="${param.error}" class="alert alert-danger">
+                <p th:if="${param.error[0] == 'invalid'}">Invalid username or password.</p>
+                <p th:if="${param.error[0] == 'role_mismatch'}">Selected role does not match your account.</p>
+                <p th:if="${param.error[0] == 'user_not_found'}">User not found.</p>
+                <p th:if="${param.error[0] != 'invalid' and param.error[0] != 'role_mismatch' and param.error[0] != 'user_not_found'}">
+                    Unknown error occurred. Please try again.
+                </p>
+            </div>
+
+
+            <div th:if="${param.logout}" class="alert alert-success">
+                You have been logged out
+            </div>
+
+            <form method="post" role="form" th:action="@{/login}">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            class="form-control"
+                            placeholder="Enter email address"
+                            required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Enter password"
+                            required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Role</label>
+                    <div class="role-options">
+                        <label>
+                            <input type="radio" name="role" value="STUDENT" checked />
+                            Student
+                        </label>
+                        <label>
+                            <input type="radio" name="role" value="ADMIN" />
+                            Admin
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn">Login</button>
+                    <span class="register-link">
+                        Not registered?
+                        <a href="/register" th:href="@{/register}">Register here</a>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const menuButton = document.querySelector('.menu-button');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuButton.addEventListener('click', () => {
+        navLinks.classList.toggle('show');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!menuButton.contains(e.target) && !navLinks.contains(e.target)) {
+            navLinks.classList.remove('show');
+        }
+    });
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('show');
+        });
+    });
+</script>
+</body>
+</html>

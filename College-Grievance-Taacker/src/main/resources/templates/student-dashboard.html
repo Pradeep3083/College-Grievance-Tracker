@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - College Grievance Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+        }
+
+        /* Navigation styles */
+        .nav-wrapper {
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .navbar-brand {
+            color: #1e4620;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: #bb2d3b;
+        }
+
+        /* Content styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .welcome-header {
+            color: #1e4620;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .welcome-header>div {
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-grievance-btn {
+            background-color: #1e4620;
+            color: white;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-input {
+            padding: 0.75rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            height: 2.5rem;
+        }
+
+        /* Form section styles (for popup) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 40%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            max-height: 70vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-content h3 {
+            color: #1e4620;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #1e4620;
+        }
+
+        textarea.form-control {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: #1e4620;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            /* margin-top: 1rem; */
+        }
+
+        .submit-btn:hover {
+            background: #2e7d32;
+        }
+
+        /* Table styles */
+        .grievances-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-top: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .grievances-section h2 {
+            color: #1e4620;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .table th {
+            background: #1e4620;
+            color: white;
+            font-weight: 500;
+        }
+
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Status badges */
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-resolved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* No results message */
+        .no-results {
+            padding: 1rem;
+            font-style: italic;
+            color: #6c757d;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .grievances-section {
+                padding: 1rem;
+            }
+
+            .welcome-header {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .welcome-header>div {
+                width: 100%;
+            }
+
+            .add-grievance-btn,
+            .search-input {
+                width: 100%;
+            }
+
+            .table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.75rem;
+                font-size: 0.875rem;
+            }
+
+            .modal-content {
+                margin: 10% auto;
+                /* Adjust for smaller screens */
+                padding: 15px;
+                width: 90%;
+                /* Make it wider on smaller screens */
+                max-height: none;
+                /* Remove max height for smaller screens if needed */
+                overflow: auto;
+                /* Allow scrolling on smaller screens if content overflows */
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="nav-wrapper">
+    <nav class="navbar">
+        <a href="/" class="navbar-brand">College Grievance Tracker</a>
+        <a th:href="@{/logout}" class="logout-btn">Logout</a>
+    </nav>
+</div>
+
+<div class="container">
+    <h1 class="welcome-header">Welcome, <span th:text="${student.name}"></span>!</h1>
+    <div>
+        <div style="display: flex; align-items: center; gap: 10px; justify-content: space-between;">
+            <a href="#" class="add-grievance-btn" onclick="openModal()" style="background-color: #1e4620; color: white; padding: 0.75rem 1rem; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; text-decoration: none; height: 2.5rem; display: flex; align-items: center; justify-content: center;">Add
+                Grievance</a>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search grievances..."
+                   onkeyup="searchTable()"
+                   style="padding: 0.75rem 1rem; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; height: 2.5rem;">
+        </div>
+    </div>
+
+    <div id="grievances-section" class="grievances-section">
+        <h2>Your Grievances</h2>
+        <div class="table-wrapper">
+            <table id="grievanceTable" class="table">
+                <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Branch</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody id="tableBody">
+                <tr th:each="grievance : ${grievances}">
+                    <td th:text="${grievance.grievanceType}"></td>
+                    <td th:text="${grievance.description}"></td>
+                    <td th:text="${grievance.branch}"></td>
+                    <td>
+                                <span th:text="${grievance.status}"
+                                      th:class="${grievance.status == 'PENDING' ? 'status-badge status-pending' : 'status-badge status-resolved'}">
+                                </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <p id="noResults" class="no-results" style="display:none;">No grievances found matching your search.</p>
+        </div>
+    </div>
+</div>
+
+<div id="addGrievanceModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="closeModal()">&times;</span>
+        <h3>Submit a new grievance</h3>
+        <form th:action="@{/grievances/submit}" th:object="${newGrievance}" method="post"
+              onsubmit="return confirmSubmit()">
+            <div class="form-group">
+                <label for="modalBranch" class="form-label">Branch</label>
+                <input type="text" th:field="*{branch}" class="form-control" id="modalBranch" required />
+            </div>
+            <div class="form-group">
+                <label for="modalGrievanceType" class="form-label">Type</label>
+                <input type="text" th:field="*{grievanceType}" class="form-control" id="modalGrievanceType"
+                       required />
+            </div>
+            <div class="form-group">
+                <label for="modalDescription" class="form-label">Description</label>
+                <textarea th:field="*{description}" class="form-control" id="modalDescription" required
+                          style="min-height: 60px;"></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Submit Grievance</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("addGrievanceModal");
+
+    // Get the button that opens the modal
+    var btn = document.querySelector(".add-grievance-btn");
+
+    // Get the <span> element that closes the modal
+    var span = document.querySelector(".close-button");
+
+    // Open the modal
+    function openModal() {
+        modal.style.display = "block";
+    }
+
+    // Close the modal
+    function closeModal() {
+        modal.style.display = "none";
+    }
+
+    // Close the modal if the user clicks outside of it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function confirmSubmit() {
+        var confirmation = confirm("Please check the details before submitting. Once submitted, you cannot edit the grievance.");
+        return confirmation;
+    }
+
+    function searchTable() {
+        var input,
+            filter,
+            table,
+            tbody,
+            tr,
+            td,
+            i,
+            j,
+            txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("grievanceTable");
+        tbody = table.getElementsByTagName("tbody")[0];
+        tr = tbody.getElementsByTagName("tr");
+        var found = false;
+
+        for (i = 0; i < tr.length; i++) {
+            var rowMatch = false;
+            for (j = 0; j < tr[i].cells.length; j++) {
+                td = tr[i].cells[j];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        rowMatch = true;
+                        break;
+                    }
+                }
+            }
+            if (rowMatch) {
+                tr[i].style.display = "";
+                found = true;
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+
+        var noResultsMessage = document.getElementById("noResults");
+        if (found) {
+            noResultsMessage.style.display = "none";
+        } else {
+            noResultsMessage.style.display = "block";
+        }
+    }
+</script>
+</body>
+
+</html>

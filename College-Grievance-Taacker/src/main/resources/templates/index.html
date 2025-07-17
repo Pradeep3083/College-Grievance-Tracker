@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Grievance Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Navigation styles */
+        .nav-wrapper {
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .navbar-brand {
+            color: #1e4620;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #666;
+            text-decoration: none;
+            padding: 0.5rem;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: #1e4620;
+        }
+
+        .nav-link.active {
+            color: #1e4620;
+            font-weight: 500;
+        }
+
+        /* Mobile menu button */
+        .menu-button {
+            display: none;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero section */
+        .hero {
+            background: linear-gradient(to right, #1e4620, #2e7d32);
+            color: white;
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .hero .btn-primary {
+        display: inline-block;
+        margin-top: 2rem; /* Increase spacing from the text */
+        padding: 0.75rem 2rem; /* Adjust padding for a larger button */
+        font-size: 1.1rem; /* Slightly increase font size */
+        border-radius: 50px; /* Add a pill-shaped appearance */
+        background: #1e4620; /* Maintain the same primary color */
+        border: none;
+        color: white;
+        text-decoration: none;
+        transition: background-color 0.3s ease, transform 0.2s ease; /* Add hover effects */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    }
+
+    .hero .btn-primary:hover {
+        background: #145a16; /* Darker green for hover */
+        transform: translateY(-2px); /* Lift the button slightly */
+    }
+
+    .hero .btn-primary:active {
+        transform: translateY(1px); /* Pressed effect */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+        /* About section */
+        .about-section {
+            padding: 4rem 1rem;
+            background: #f8f9fa;
+        }
+
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .about-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .about-card h3 {
+            color: #1e4620;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+
+        .about-card p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .menu-button {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                z-index: 1000;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="nav-wrapper">
+    <nav class="navbar">
+        <a href="/index" class="navbar-brand">College Grievance Tracker</a>
+        <button class="menu-button" aria-label="Toggle navigation">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <div class="nav-links">
+            <a href="/register" class="nav-link active">Register</a>
+            <a href="/login" class="nav-link active">Login</a>
+        </div>
+    </nav>
+</div>
+
+<div class="hero">
+    <div class="hero-content">
+        <h1>Welcome to the College Grievance Tracker</h1>
+        <p>Empowering voices, ensuring accountability.</p>
+        <a href="/login" class="btn btn-primary">Learn More</a>
+    </div>
+</div>
+
+<section class="about-section">
+    <div class="about-content">
+        <div class="about-card">
+            <h3>Our Mission</h3>
+            <p>To provide a transparent and efficient platform for students to voice their concerns and get timely resolutions from the administration.</p>
+        </div>
+        <div class="about-card">
+            <h3>How It Works</h3>
+            <p>Submit your grievance through our simple interface, track its progress in real-time, and receive updates until resolution.</p>
+        </div>
+        <div class="about-card">
+            <h3>Our Impact</h3>
+            <p>Successfully resolved hundreds of student grievances, improving campus life and fostering better communication between students and administration.</p>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Mobile menu toggle
+    const menuButton = document.querySelector('.menu-button');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuButton.addEventListener('click', () => {
+        navLinks.classList.toggle('show');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!menuButton.contains(e.target) && !navLinks.contains(e.target)) {
+            navLinks.classList.remove('show');
+        }
+    });
+
+    // Close menu when link is clicked
+    const navLinksArray = document.querySelectorAll('.nav-link');
+    navLinksArray.forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('show');
+        });
+    });
+</script>
+</body>
+</html>
